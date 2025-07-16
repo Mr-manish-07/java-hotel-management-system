@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+// This is used in doa classes inside theri implemenation with data so similir code no need to write again and again
+
 public class GenericDAO {
 
     private final Connection connection;
