@@ -1,0 +1,94 @@
+package org.manish07.model;
+
+
+import java.math.BigDecimal;
+
+public class Room {
+
+
+//-------------------------------------------------PLAIN JAVA CLASS(POJO)----------------------------------------------
+
+    private int roomId ,roomNumber ;
+    private String acType ;
+    private BigDecimal price ;
+    private String bed;
+    private String balcony;
+
+    //---------------------------------CONSTRUCTOR-----------------------------
+
+
+    public Room(int id, int roomNumber, String type, BigDecimal price, String bed, String balcony) {
+        this.roomId = id;
+        this.roomNumber = roomNumber;
+        this.acType = type;
+        this.price = price;
+        this.bed = bed;
+        this.balcony = balcony;
+    }
+
+    //---------------------------------GETTER & SETTER--------------------------
+
+
+    public void setBalcony(String balcony) {
+        this.balcony = balcony;
+    }
+
+    public String getAcType() {
+        return acType;
+    }
+
+    public void setAcType(String acType) {
+        this.acType = acType;
+    }
+
+    public String getBed() {
+        return bed;
+    }
+
+    public void setBed(String bed) {
+        this.bed = bed;
+    }
+
+    public String getBalcony() {
+        return this.balcony;
+    }
+
+    public int getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(int id) {
+        this.roomId = id;
+    }
+
+    public int getRoomNumber() {
+        return roomNumber;
+    }
+
+    public void setRoomNumber(int roomNumber) {
+        this.roomNumber = roomNumber;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+
+    //------------------------------TO STRING METHOD--------------------------
+
+    @Override
+    public String toString() {
+        return "\nRoom  [   " +
+                "roomId = " + roomId +
+                ",      roomNumber = " + roomNumber +
+                ",      price = " + price +
+                ",      bad = " +  bed+
+                ",      Ac Type= " + acType +
+                ",      balcony = " + balcony +
+                "   ]";
+    }
+}
