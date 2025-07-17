@@ -76,4 +76,8 @@ public class BookingServiceImpl implements BookingService {
     public Booking getBookingByBookingId(int bookingId){
         return bookingDOA.getBookingById (bookingId);
     }
+    
+    public Booking getBookingByCustomerId(int customerId){
+        return bookingDOA.getBookingByCustomerId (customerId);
+    }
 }

@@ -269,18 +269,18 @@ public class HotelManagementApp {
                 
                 case 7 -> System.out.println (roomService.getDoubleBedRoom ("DOUBLE"));
                 
-                case 8 ->{
-                    System.out.print("Enter Room Id : ");
+                case 8 -> {
+                    System.out.print ("Enter Room Id : ");
                     int roomId = scanner.nextInt ();
                     
                     Room room = roomService.getRoomById (roomId);
-                    if(room != null){
-                        if(room.getBalcony ().equalsIgnoreCase ("A")){
+                    if (room != null) {
+                        if (room.getBalcony ().equalsIgnoreCase ("A")) {
                             System.out.println ("Balcony Available at Room Id : " + roomId);
-                        }else{
+                        } else {
                             System.out.println ("Balcony not Available at Room id : " + roomId);
                         }
-                    }else {
+                    } else {
                         System.out.println ("Wrong Room Id , Try Again with Valid Input");
                     }
                 }
@@ -345,8 +345,8 @@ public class HotelManagementApp {
                                                    LocalDateTime.now (),
                                                    bookingStatus
                     );
-                    if(bookingService.bookRoom (booking)){
-                    
+                    if (bookingService.bookRoom (booking)) {
+                        System.out.println (bookingService.getBookingByCustomerId (customerId));
                     }
                 }
                 
