@@ -78,6 +78,9 @@ public class BillingServiceImpl implements BillingService {
                 
                 if(billDOA.deleteDateByBookingId (bookingId)){
                     System.out.println ("Data Removed From Billing Successfully");
+                    if(bookingDOA.deleteByBookingId (bookingId)){
+                        System.out.println ("Data Deleted From Booking Successfully");
+                    }
                 }
                 
             }

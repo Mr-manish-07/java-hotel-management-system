@@ -55,4 +55,8 @@ public class RoomServiceImpl implements RoomService {
     public List<Room> getDoubleBedRoom (String bed) {
         return roomDOA.getDoubleBedRoom ("DOUBLE");
     }
+    
+    public Room getRoomByRooNo(int roomNo){
+        return roomDOA.getRoomByRoomNo (roomNo);
+    }
 }

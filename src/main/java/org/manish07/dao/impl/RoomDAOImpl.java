@@ -228,6 +228,12 @@ public class RoomDAOImpl implements RoomDOA {
                          );
     }
     
+    public Room getRoomByRoomNo ( int roomNo) {
+        return dao.query ("SELECT * FROM rooms WHERE room_number = ?",
+                          ps -> ps.setInt (1, roomNo),
+                          RoomDAOImpl :: fromResultSet
+                         );
+    }
 }
 
 

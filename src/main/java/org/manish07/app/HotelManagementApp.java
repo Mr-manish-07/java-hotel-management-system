@@ -160,7 +160,7 @@ public class HotelManagementApp {
                 }
                 
                 case 5 -> {
-                    sleep ();
+                    printEnding ("Returning to Main Menu");
                     return;
                 }
                 
@@ -241,6 +241,7 @@ public class HotelManagementApp {
                                                        availability
                     ))) {
                         System.out.println ("Room Added Successfully");
+                        System.out.println (roomService.getRoomByRooNo (roomNo));
                     } else {
                         System.out.println ("Room Not Added , due to invalid input");
                     }
@@ -260,18 +261,30 @@ public class HotelManagementApp {
                     else System.out.println (roomService.getRoomById (roomId));
                 }
                 
-                case 4 -> {
-                    System.out.println (roomService.getACRoom ("AC"));
+                case 4 -> System.out.println (roomService.getACRoom ("AC"));
+                
+                case 5 -> System.out.println (roomService.getNonACRoom ("NON-AC"));
+                
+                case 6 -> System.out.println (roomService.getSingleBedRoom ("SINGLE"));
+                
+                case 7 -> System.out.println (roomService.getDoubleBedRoom ("DOUBLE"));
+                
+                case 8 ->{
+                    System.out.print("Enter Room Id : ");
+                    int roomId = scanner.nextInt ();
+                    
+                    Room room = roomService.getRoomById (roomId);
+                    if(room != null){
+                        if(room.getBalcony ().equalsIgnoreCase ("A")){
+                            System.out.println ("Balcony Available at Room Id : " + roomId);
+                        }else{
+                            System.out.println ("Balcony not Available at Room id : " + roomId);
+                        }
+                    }else {
+                        System.out.println ("Wrong Room Id , Try Again with Valid Input");
+                    }
                 }
-                case 5 -> {
-                    System.out.println (roomService.getNonACRoom ("NON-AC"));
-                }
-                case 6 -> {
-                    System.out.println (roomService.getSingleBedRoom ("SINGLE"));
-                }
-                case 7 -> {
-                    System.out.println (roomService.getDoubleBedRoom ("DOUBLE"));
-                }
+                
                 case 9 -> {
                     printEnding ("Returning to Main Menu");
                     return;
@@ -332,7 +345,9 @@ public class HotelManagementApp {
                                                    LocalDateTime.now (),
                                                    bookingStatus
                     );
-                    bookingService.bookRoom (booking);
+                    if(bookingService.bookRoom (booking)){
+                    
+                    }
                 }
                 
                 case 2 -> {
@@ -360,7 +375,7 @@ public class HotelManagementApp {
                 }
                 
                 case 5 -> {
-                    sleep ();
+                    printEnding ("Returning to Main Menu");
                     return;
                 }
                 
@@ -394,24 +409,26 @@ public class HotelManagementApp {
                 
                 case 1 -> {
                     
-                    System.out.print("Enter Booking Id : ");
+                    System.out.print ("Enter Booking Id : ");
                     int bookingId = scanner.nextInt ();
                     
                     Bill bill = new Bill (id, bookingId, new BigDecimal ("100"), "Pending",
-                                          LocalDateTime.now () );
+                                          LocalDateTime.now ()
+                    );
                     System.out.println (billingService.generateBill (bill));
                     
-                } case 2 -> {
+                }
+                case 2 -> {
                     
-                    System.out.print("Enter Booking Id : ");
+                    System.out.print ("Enter Booking Id : ");
                     int bookingId = scanner.nextInt ();
                     System.out.println (billingService.getBillByBookingId (bookingId));
                 }
                 case 3 -> {
-                    System.out.print("Enter Booking Id : ");
+                    System.out.print ("Enter Booking Id : ");
                     int bookingId = scanner.nextInt ();
                     
-                    System.out.print("Enter Bill Amount : ");
+                    System.out.print ("Enter Bill Amount : ");
                     BigDecimal amount = scanner.nextBigDecimal ();
                     
                     billingService.makePayment (bookingId, amount);

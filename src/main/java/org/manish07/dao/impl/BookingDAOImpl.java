@@ -30,8 +30,7 @@ public class BookingDAOImpl implements BookingDOA {
     public boolean bookRoom (Booking booking) {
         
         try (PreparedStatement ps = connection.prepareStatement (
-                "INSERT INTO bookings(customer_id,room_id,check_in,check_out,booking_time,booking_status)" +
-                        "VALUES(?,?,?,?,?,?)")) {
+                "INSERT INTO bookings(customer_id,room_id,check_in,check_out,booking_time,booking_status)" + "VALUES(?,?,?,?,?,?)")) {
             
             ps.setInt (1, booking.getCustomerId ());
             ps.setInt (2, booking.getRoomId ());
@@ -74,7 +73,7 @@ public class BookingDAOImpl implements BookingDOA {
             return null;
         }
     }
-    
+
 
 //-----------------------------------------------------GET CUSTOMER'S BOOKING------------------------------------------
     
@@ -84,13 +83,13 @@ public class BookingDAOImpl implements BookingDOA {
         try (PreparedStatement ps = connection.prepareStatement (
                 "SELECT * FROM bookings WHERE customer_id = ?")) {
             
-            List<Booking > listOfBooking = new ArrayList<> ();
+            List<Booking> listOfBooking = new ArrayList<> ();
             
             ps.setInt (1, customerId);
             
             ResultSet rs = ps.executeQuery ();
             
-            while (rs.next ()){
+            while (rs.next ()) {
                 new Booking (rs.getInt ("id"),
                              customerId,
                              rs.getInt ("room_id"),
@@ -99,7 +98,8 @@ public class BookingDAOImpl implements BookingDOA {
                              rs.getTimestamp ("booking_time").toLocalDateTime (),
                              rs.getString ("booking_status")
                 );
-            };
+            }
+            ;
             return listOfBooking;
         }
         catch (SQLException e) {
@@ -114,13 +114,13 @@ public class BookingDAOImpl implements BookingDOA {
         try (PreparedStatement ps = connection.prepareStatement (
                 "SELECT * FROM bookings WHERE customer_id = ?")) {
             
-            List<Booking > listOfBooking = new ArrayList<> ();
+            List<Booking> listOfBooking = new ArrayList<> ();
             
             ps.setInt (1, roomId);
             
             ResultSet rs = ps.executeQuery ();
             
-            while (rs.next ()){
+            while (rs.next ()) {
                 new Booking (rs.getInt ("id"),
                              rs.getInt ("customer_id"),
                              roomId,
@@ -129,7 +129,8 @@ public class BookingDAOImpl implements BookingDOA {
                              rs.getTimestamp ("booking_time").toLocalDateTime (),
                              rs.getString ("booking_status")
                 );
-            };
+            }
+            ;
             return listOfBooking;
         }
         catch (SQLException e) {
@@ -138,7 +139,61 @@ public class BookingDAOImpl implements BookingDOA {
         }
     }
     
+    public boolean deleteByBookingId (int bookingId) {
+        try (PreparedStatement ps = connection.prepareStatement ("DELETE FROM bookings where id = ?")) {
+            ps.setInt (1, bookingId);
+            return ps.executeUpdate () > 0;
+        }
+        catch (SQLException e) {
+            logger.log (Level.SEVERE, "Error deleting booking from the database", e);
+            return false;
+        }
+    }
+    
+    public Booking getBookingByCustomerId (int customerId) {
+        
+        try (PreparedStatement ps = connection.prepareStatement (
+                "SELECT * FROM bookings WHERE customer_id = ? order by id desc limit 1")) {
+            
+            ps.setInt (1, customerId);
+            
+            ResultSet rs = ps.executeQuery ();
+            
+            return rs.next () ? new Booking (rs.getInt ("id"),
+                                             customerId,
+                                             rs.getInt ("room_id"),
+                                             rs.getDate ("check_in").toLocalDate (),
+                                             rs.getDate ("check_out").toLocalDate (),
+                                             rs.getTimestamp ("booking_time").toLocalDateTime (),
+                                             rs.getString ("booking_status")
+            ) : null;
+        }
+        catch (SQLException e) {
+            logger.log (Level.SEVERE, "Error get booking from customer to the database", e);
+            return null;
+        }
+        
+    }
+    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
