@@ -112,7 +112,7 @@ public class BookingDAOImpl implements BookingDOA {
     public List<Booking> getListBookingByRoomId (int roomId) {
         
         try (PreparedStatement ps = connection.prepareStatement (
-                "SELECT * FROM bookings WHERE customer_id = ?")) {
+                "SELECT * FROM bookings WHERE room_id = ?")) {
             
             List<Booking> listOfBooking = new ArrayList<> ();
             
@@ -121,7 +121,7 @@ public class BookingDAOImpl implements BookingDOA {
             ResultSet rs = ps.executeQuery ();
             
             while (rs.next ()) {
-                new Booking (rs.getInt ("id"),
+                Booking booking = new Booking (rs.getInt ("id"),
                              rs.getInt ("customer_id"),
                              roomId,
                              rs.getDate ("check_in").toLocalDate (),
@@ -129,6 +129,7 @@ public class BookingDAOImpl implements BookingDOA {
                              rs.getTimestamp ("booking_time").toLocalDateTime (),
                              rs.getString ("booking_status")
                 );
+                listOfBooking.add (booking);
             }
             ;
             return listOfBooking;

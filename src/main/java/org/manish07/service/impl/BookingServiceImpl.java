@@ -42,7 +42,6 @@ public class BookingServiceImpl implements BookingService {
         List<Booking> bookingList = bookingDOA.getListBookingByRoomId (roomId);
         bookingList.sort (Comparator.comparing (Booking :: getCheckIn));
         
-        
         for (Booking existing : bookingList) {
             LocalDate existingIn = existing.getCheckIn ();
             LocalDate existingOut = existing.getCheckOut ();
