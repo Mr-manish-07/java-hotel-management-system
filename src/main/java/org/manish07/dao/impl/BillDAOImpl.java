@@ -1,6 +1,6 @@
 package org.manish07.dao.impl;
 
-import org.manish07.dao.BillDOA;
+import org.manish07.dao.BillDAO;
 import org.manish07.model.Bill;
 import org.manish07.util.DBUtil;
 
@@ -10,7 +10,7 @@ import java.sql.*;
 
 
 
-public class BillDAOImpl implements BillDOA {
+public class BillDAOImpl implements BillDAO {
     
     private final Connection connection = DBUtil.getConnection ();
 //    GenericDAO dao = new GenericDAO(connection);

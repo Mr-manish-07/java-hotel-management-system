@@ -5,7 +5,7 @@ import org.manish07.model.Room;
 import java.math.BigDecimal;
 import java.util.List;
 
-public interface RoomDOA {
+public interface RoomDAO {
 
 
 //---------------------------------------------ABSTRACT METHOD OF ROOM CLASS--------------------------------------------

@@ -1,7 +1,7 @@
 package org.manish07.dao.impl;
 
 import org.manish07.GenericsDOA.GenericDAO;
-import org.manish07.dao.BookingDOA;
+import org.manish07.dao.BookingDAO;
 import org.manish07.model.Booking;
 import org.manish07.util.DBUtil;
 
@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 //------------------------------- C O M M U N I C A T I O N    W I T H   D A T A B A S E ------------------------------
 
-public class BookingDAOImpl implements BookingDOA {
+public class BookingDAOImpl implements BookingDAO {
     
     //---------- INSTANCE VARIABLE AND OBJECT OF OTHER CLASSES ------------
     

@@ -2,7 +2,7 @@ package org.manish07.dao.impl;
 
 import org.jetbrains.annotations.NotNull;
 import org.manish07.GenericsDOA.GenericDAO;
-import org.manish07.dao.RoomDOA;
+import org.manish07.dao.RoomDAO;
 import org.manish07.model.Room;
 import org.manish07.util.DBUtil;
 
@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 
 //------------------------------- C O M M U N I C A T I O N    W I T H   D A T A B A S E ------------------------------
 
-public class RoomDAOImpl implements RoomDOA {
+public class RoomDAOImpl implements RoomDAO {
     
     private static final Logger logger = Logger.getLogger (RoomDAOImpl.class.getName ());
     private final Connection connection = DBUtil.getConnection ();

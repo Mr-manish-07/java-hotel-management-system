@@ -4,7 +4,7 @@ import org.manish07.model.Booking;
 
 import java.util.List;
 
-public interface BookingDOA {
+public interface BookingDAO {
 
 
 //--------------------------------------------ABSTRACT METHOD OF BOOKING CLASS-----------------------------------------

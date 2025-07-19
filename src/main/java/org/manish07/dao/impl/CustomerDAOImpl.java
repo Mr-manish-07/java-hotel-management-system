@@ -110,7 +110,6 @@ public class CustomerDAOImpl implements CustomerDAO {
         }
         return -1;
     }
-
-    public static void setResultSet_Customers(){}
+    
 
 }

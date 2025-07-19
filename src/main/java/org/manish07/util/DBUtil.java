@@ -1,26 +1,22 @@
 package org.manish07.util;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import org.hibernate.HibernateException;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
 public class DBUtil {
-
-    private static final String URL = "jdbc:postgresql://localhost:5432/hotel";
-    private static final String USER = "postgres";
-    private static final String PASSWORD = "Manish@7200";
-
-    public static Connection getConnection() {
-
+    private static final SessionFactory sessionFactory;
+    static {
         try {
-            Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-            Class.forName("org.postgresql.Driver");
-
-            return connection;
-
-        } catch (ClassNotFoundException  | SQLException f) {
-            throw new RuntimeException();
+            sessionFactory = new Configuration ().configure ().buildSessionFactory ();
         }
-
+        catch (HibernateException e) {
+            throw new RuntimeException (e);
+        }
     }
+    
+    public static SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
+
 }

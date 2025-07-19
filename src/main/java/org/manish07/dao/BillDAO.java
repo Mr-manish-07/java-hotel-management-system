@@ -4,7 +4,7 @@ import org.manish07.model.Bill;
 
 import java.math.BigDecimal;
 
-public interface BillDOA {
+public interface BillDAO {
 
 //---------------------------------------------ABSTRACT METHOD OF BILL CLASS--------------------------------------------
 
