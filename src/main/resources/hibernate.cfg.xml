@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+
+        <!--        Database configuration          -->
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/hotel_management</property>
+        <property name="hibernate.connection.username">postgres</property>
+        <property name="hibernate.connection.password">Manish@7200</property>
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+
+        <!--        Hibernate Configuration        -->
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.format_sql">true</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <!--        XML / class mapping             -->
+        <mapping class="org.manish07.model.Customer"/>
+        <mapping class="org.manish07.model.Room"/>
+        <mapping class="org.manish07.model.Booking"/>
+        <mapping class="org.manish07.model.Bill"/>
+        <mapping class="org.manish07.model.Visited_Customers"/>
+    </session-factory>
+</hibernate-configuration>

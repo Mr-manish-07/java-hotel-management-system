@@ -1,21 +1,45 @@
 package org.manish07.model;
 
 
+import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
+
 import java.math.BigDecimal;
 
+@Entity
+@Table(name = "rooms")
 public class Room {
 
 
 //-------------------------------------------------PLAIN JAVA CLASS(POJO)----------------------------------------------
-
-    private int roomId ,roomNumber ;
+    @Id
+    @GeneratedValue (strategy = GenerationType.SEQUENCE, generator = "rooms_seq")
+    @SequenceGenerator(name = "rooms_seq", sequenceName = "rooms_sequence", initialValue = 20000,
+            allocationSize = 1)
+    private int roomId;
+    
+    
+    @Id
+    @Column(name = "room_number")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "room_number_gen")
+    @GenericGenerator (name = "room_number_gen", strategy = "org.manish07.generator.RoomNumberGenerator")
+    private int roomNumber ;
+    
+    @Column(name = "ac_type" , nullable = false)
     private String acType ;
+    
+    @Column(nullable = false)
     private BigDecimal price ;
+    
+    @Column(nullable = false)
     private String bed;
+    
+    @Column(nullable = false)
     private String balcony;
 
     //---------------------------------CONSTRUCTOR-----------------------------
 
+    
 
     public Room(int id, int roomNumber, String type, BigDecimal price, String bed, String balcony) {
         this.roomId = id;

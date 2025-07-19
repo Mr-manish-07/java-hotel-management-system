@@ -1,103 +1,86 @@
 package org.manish07.model;
 
+import jakarta.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-import java.time.*;
-
+@Entity
+@Table(name = "bookings")
 public class Booking {
-
-//-------------------------------------------------PLAIN JAVA CLASS(POJO)----------------------------------------------
-
-    private int bookingId, customerId , roomId;
-    private LocalDate checkIn , checkOut;
-    private LocalDateTime bookingTime ;
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "booking_seq")
+    @SequenceGenerator(name = "booking_seq", sequenceName = "booking_sequence", initialValue = 30000, allocationSize = 1)
+    private Integer bookingId;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "room_id", nullable = false)
+    private Room room;
+    
+    @Column(name = "check_in", nullable = false)
+    private LocalDate checkIn;
+    
+    @Column(name = "check_out", nullable = false)
+    private LocalDate checkOut;
+    
+    @Column(name = "booking_time", nullable = false, updatable = false)
+    private LocalDateTime bookingTime;
+    
+    @Column(name = "booking_status", nullable = false, length = 20)
     private String bookingStatus;
-
-
-
-
-    //---------------------------------CONSTRUCTOR-----------------------------
-
-    public Booking(int id, int customerId, int roomId, LocalDate checkIn,
-                   LocalDate checkOut, LocalDateTime bookingTime, String bookingStatus) {
-        this.bookingId = id;
-        this.customerId = customerId;
-        this.roomId = roomId;
+    
+    // ✅ Default constructor (required by Hibernate)
+    
+    public Booking() {}
+    
+    // ✅ Parameterized constructor
+    
+    public Booking(Customer customer, Room room, LocalDate checkIn, LocalDate checkOut, LocalDateTime bookingTime, String bookingStatus) {
+        this.customer = customer;
+        this.room = room;
         this.checkIn = checkIn;
         this.checkOut = checkOut;
         this.bookingTime = bookingTime;
         this.bookingStatus = bookingStatus;
     }
-
-    //---------------------------------GETTER & SETTER--------------------------
-
-
-    public String getBookingStatus() {
-        return bookingStatus;
-    }
-
-    public void setBookingStatus(String bookingStatus) {
-        this.bookingStatus = bookingStatus;
-    }
-
-    public int getBookingId() {
-        return bookingId;
-    }
-
-    public void setBookingId(int bookingId) {
-        this.bookingId = bookingId;
-    }
-
-    public int getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
-    }
-
-    public int getRoomId() {
-        return roomId;
-    }
-
-    public void setRoomId(int roomId) {
-        this.roomId = roomId;
-    }
-
-    public LocalDate getCheckIn() {
-        return checkIn;
-    }
-
-    public void setCheckIn(LocalDate checkIn) {
-        this.checkIn = checkIn;
-    }
-
-    public LocalDate getCheckOut() {
-        return checkOut;
-    }
-
-    public void setCheckOut(LocalDate checkOut) {
-        this.checkOut = checkOut;
-    }
-
-    public LocalDateTime getBookingTime() {
-        return bookingTime;
-    }
-
-    public void setBookingTime(LocalDateTime bookingTime) {
-        this.bookingTime = bookingTime;
-    }
-
-    //------------------------------TO STRING METHOD--------------------------
-
+    
+    // ✅ Getters and Setters
+    
+    public Integer getBookingId() { return bookingId; }
+    public void setBookingId(Integer bookingId) { this.bookingId = bookingId; }
+    
+    public Customer getCustomer() { return customer; }
+    public void setCustomer(Customer customer) { this.customer = customer; }
+    
+    public Room getRoom() { return room; }
+    public void setRoom(Room room) { this.room = room; }
+    
+    public LocalDate getCheckIn() { return checkIn; }
+    public void setCheckIn(LocalDate checkIn) { this.checkIn = checkIn; }
+    
+    public LocalDate getCheckOut() { return checkOut; }
+    public void setCheckOut(LocalDate checkOut) { this.checkOut = checkOut; }
+    
+    public LocalDateTime getBookingTime() { return bookingTime; }
+    public void setBookingTime(LocalDateTime bookingTime) { this.bookingTime = bookingTime; }
+    
+    public String getBookingStatus() { return bookingStatus; }
+    public void setBookingStatus(String bookingStatus) { this.bookingStatus = bookingStatus; }
+    
     @Override
     public String toString() {
         return "Booking [" +
-                "\n       bookingId=" + bookingId +
-                "\n       customerId=" + customerId +
-                "\n       roomId=" + roomId +
-                "\n       checkIn=" + checkIn +
-                "\n       checkOut=" + checkOut +
-                "\n       bookingTime=" + bookingTime +
+                "\n    bookingId=" + bookingId +
+                "\n    customer=" + (customer != null ? customer.getCustomerId() : null) +
+                "\n    room=" + (room != null ? room.getRoomNumber() : null) +
+                "\n    checkIn=" + checkIn +
+                "\n    checkOut=" + checkOut +
+                "\n    bookingTime=" + bookingTime +
+                "\n    bookingStatus=" + bookingStatus +
                 "\n]";
     }
 }
