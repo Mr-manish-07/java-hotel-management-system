@@ -1,9 +1,8 @@
 package org.manish07.service.impl;
 
 import org.manish07.Privacy.Encryption;
-import org.manish07.dao.impl.*;
-import org.manish07.model.Bill;
-import org.manish07.model.Visited_Customers;
+import org.manish07.dao.*;
+import org.manish07.model.*;
 import org.manish07.service.BillingService;
 import org.manish07.util.DateUtil;
 
@@ -17,68 +16,82 @@ import java.time.LocalDateTime;
 
 public class BillingServiceImpl implements BillingService {
     
-    CustomerDAOImpl customerDAO = new CustomerDAOImpl ();
-    RoomDAOImpl roomDOA = new RoomDAOImpl ();
-    BookingDAOImpl bookingDOA = new BookingDAOImpl ();
-    BillDAOImpl billDOA = new BillDAOImpl ();
-    VisitedCustomerDoaImpl visitedCustomerDoa = new VisitedCustomerDoaImpl ();
+    private final CustomerDAO customerDAO;
+    private final RoomDAO roomDAO;
+    private final BookingDAO bookingDAO;
+    private final BillDAO billDAO;
+    private final VisitedCustomerDAO visitedCustomerDAO;
     
+    public BillingServiceImpl (CustomerDAO customerDAO, RoomDAO roomDAO, BookingDAO bookingDAO, BillDAO billDAO, VisitedCustomerDAO visitedCustomerDAO) {
+        this.customerDAO = customerDAO;
+        this.roomDAO = roomDAO;
+        this.bookingDAO = bookingDAO;
+        this.billDAO = billDAO;
+        this.visitedCustomerDAO = visitedCustomerDAO;
+    }
     
     @Override
     public String generateBill (Bill bill) {
         
-        LocalDate checkIn = bookingDOA.getBookingById (bill.getBookingId ()).getCheckIn ();
-        LocalDate checkOut = bookingDOA.getBookingById (bill.getBookingId ()).getCheckOut ();
+        Booking booking = bookingDAO.findById(bill.getBooking ().getBookingId ());
+        
+        LocalDate checkIn = booking.getCheckIn ();
+        LocalDate checkOut = booking.getCheckOut ();
         
         long days_stayed = DateUtil.getDaysBetween (checkIn, checkOut);
         
-        int roomId = bookingDOA.getBookingById (bill.getBookingId ()).getRoomId ();
+        int roomId = booking.getRoom ().getRoomId ();
         
         BigDecimal totalPrice =
-                (roomDOA.getRoomById (roomId)
+                (roomDAO.findById (roomId)
                         .getPrice ()).multiply (BigDecimal.valueOf (days_stayed));
         
-        Bill bill1 = new Bill (bill.getBillId (), bill.getBookingId (), totalPrice, "pending",
+        Bill bill1 = new Bill ( bill.getBooking (), totalPrice, "pending",
                                LocalDateTime.now ());
-        return billDOA.generateBill (bill1);
+        return billDAO.generateBill (bill1);
     }
     
     @Override
     public Bill getBillByBookingId (int bookingId) {
-        return billDOA.getBillByBookingId (bookingId);
+        return billDAO.findByBookingId (bookingId);
     }
     
     @Override
     public boolean makePayment (int bookingId, BigDecimal amount) {
         
-        if(billDOA.makePayment (bookingId, amount)){
+        if(billDAO.makePayment (bookingId, amount)){
+            
             System.out.println ("Payment Updated Successfully");
             
-            int customerId = bookingDOA.getBookingById (bookingId).getCustomerId ();
-            int roomId = bookingDOA.getBookingById (bookingId).getRoomId ();
-            int billId = billDOA.getBillByBookingId (bookingId).getBillId ();
+            Customer customer = bookingDAO.findById (bookingId).getCustomer ();
+            Room room = bookingDAO.findById (bookingId).getRoom ();
+            Bill bill = billDAO.findById (bookingId);
+            Booking booking = bookingDAO.findById (bookingId);
             String phone =
-                    Encryption.decrypt (customerDAO.getCustomerById (customerId).getPhone ());
+                    Encryption.decrypt (customerDAO.findById (customer.getCustomerId ()).getPhone ());
             String email =
-                    Encryption.decrypt (customerDAO.getCustomerById (customerId).getEmail ());
-            String name = customerDAO.getCustomerById (customerId).getName ();
+                    Encryption.decrypt (customerDAO.findById (customer.getCustomerId ()).getEmail ());
+            String name = customerDAO.findById ((customer).getCustomerId ()).getName ();
             LocalDateTime paymentDate =
-                    billDOA.getBillByBookingId(bookingId).getPaymentDate();
-            LocalDateTime bookingDate = bookingDOA.getBookingById (bookingId).getBookingTime ();
-            LocalDate checkIn = bookingDOA.getBookingById (bookingId).getCheckIn ();
-            LocalDate checkOut = bookingDOA.getBookingById (bookingId).getCheckOut ();
+                    billDAO.findByBookingId (bookingId).getPaymentDate();
+            LocalDateTime bookingDate = bookingDAO.findById (bookingId).getBookingTime ();
+            LocalDate checkIn = bookingDAO.findById (bookingId).getCheckIn ();
+            LocalDate checkOut = bookingDAO.findById (bookingId).getCheckOut ();
             
-            Visited_Customers visitedCustomers = new Visited_Customers (1,bookingId,customerId,
-                                                                        roomId,billId,phone,name,
-                                                                        email,amount,paymentDate,
-                                                                        bookingDate,checkIn,
-                                                                        checkOut,LocalDateTime.now ());
-            if(visitedCustomerDoa.dataHandler (visitedCustomers)){
+            int roomNo = room.getRoomNumber ();
+            
+            VisitedCustomer visitedCustomers = new VisitedCustomer (customer, room, booking,
+                                                                    bill, name,
+                                                                    email, phone ,roomNo,amount,
+                                                                    paymentDate,
+                                                                    bookingDate, checkIn,
+                                                                    checkOut, LocalDateTime.now ());
+            if(visitedCustomerDAO.save (visitedCustomers)){
                 System.out.println ("Data Handler ( Moved To Server) Updated Successfully");
                 
-                if(billDOA.deleteDateByBookingId (bookingId)){
+                if(billDAO.delete (billDAO.findByBookingId (bookingId))){
                     System.out.println ("Data Removed From Billing Successfully");
-                    if(bookingDOA.deleteByBookingId (bookingId)){
+                    if(bookingDAO.delete (bookingDAO.findById (bookingId))){
                         System.out.println ("Data Deleted From Booking Successfully");
                     }
                 }

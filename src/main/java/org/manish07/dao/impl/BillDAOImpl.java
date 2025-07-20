@@ -1,134 +1,77 @@
 package org.manish07.dao.impl;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.manish07.dao.BillDAO;
 import org.manish07.model.Bill;
-import org.manish07.util.DBUtil;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.sql.*;
+import java.time.LocalDateTime;
 
-
-
-public class BillDAOImpl implements BillDAO {
+public class BillDAOImpl extends GenericsDAOImpl<Bill> implements BillDAO {
     
-    private final Connection connection = DBUtil.getConnection ();
-//    GenericDAO dao = new GenericDAO(connection);
-//    BookingDAOImpl bookingDOA = new BookingDAOImpl();
-//    private static final Logger logger = Logger.getLogger(BillDAOImpl.class.getName());
-
-
-//--------------------------------------------------GENERATING BILL---------------------------------------------------
+    public BillDAOImpl (SessionFactory sessionFactory) {
+        super (sessionFactory, Bill.class);
+    }
+    
+    public Bill currentBill () {
+        return super.findAll ().stream ().sorted ((a, b) ->
+                                                          Integer.compare (b.getBillId (),a.getBillId ()))
+                .findFirst ()
+                .orElse (null);
+    }
     
     @Override
     public String generateBill (Bill bill) {
-        
-        String query = "INSERT INTO bills(booking_id,total_amount,payment_status,payment_date) VALUES(?,?,?,?)";
-        
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement (query);
-            preparedStatement.setInt (1, bill.getBookingId ());
-            preparedStatement.setBigDecimal (2, bill.getTotalAmount ());
-            preparedStatement.setString (3, bill.getPaymentStatus ());
-            preparedStatement.setTimestamp (4, Timestamp.valueOf (bill.getPaymentDate ()));
-            
-            int rowAffected = preparedStatement.executeUpdate ();
-            
-            if (rowAffected > 0) {
-                
-                int billId = getBillByBookingId (bill.getBookingId ()).getBillId ();
-                
-                return "\n----------------------------------------------------" +
-                        "\nBill Id        : " + billId + "\n" +
-                        "Payment status : " + bill.getPaymentStatus () + "\n" +
-                        "Payment Date   : " + bill.getPaymentDate () + "\n" +
-                        "----------------------------------------------------\n" +
-                        "Total Price    : ₹" + bill.getTotalAmount () + "\n" +
-                        "----------------------------------------------------\n";
-            }
-            return null;
-        }
-        catch (SQLException | NumberFormatException e) {
-            
-            System.out.println (e.getMessage ());
-        }
-        return null;
+        return bill.toString ();
     }
-
-
-//--------------------------------------------------GET BILL BY BOOKING ID---------------------------------------------
     
     @Override
-    public Bill getBillByBookingId (int bookingId) {
+    public boolean makePayment(int bookingId, BigDecimal amount) {
+        Transaction transaction = null;
         
-        String query = "select * from bills where booking_id = ?";
-        
-        try {
+        try (Session session = sessionFactory.openSession ()) {
+            transaction = session.beginTransaction();
             
-            PreparedStatement preparedStatement = connection.prepareStatement (query);
-            preparedStatement.setInt (1, bookingId);
+            Bill bill = session.createQuery("FROM Bill WHERE bookingId = :bookingId", Bill.class)
+                    .setParameter("bookingId", bookingId)
+                    .uniqueResult();
             
-            ResultSet resultSet = preparedStatement.executeQuery ();
-            
-            if (resultSet.next ()) {
-                
-                return new Bill (resultSet.getInt ("id"),
-                                 resultSet.getInt ("booking_id"),
-                                 resultSet.getBigDecimal ("total_amount"),
-                                 resultSet.getString ("payment_status"),
-                                 resultSet.getTimestamp ("payment_date").toLocalDateTime ()
-                );
-            }
-            return null;
-        }
-        catch (SQLException e) {
-            System.out.println (e.getMessage ());
-        }
-        return null;
-    }
-
-
-//--------------------------------------------------UPDATING PAYMENT STATUS--------------------------------------------
-    
-    @Override
-    public boolean makePayment (int bookingId, BigDecimal amount) {
-        
-        BigDecimal totalRemainingAmount =
-                getBillByBookingId (bookingId).getTotalAmount ().setScale (0, RoundingMode.DOWN);
-        
-        int billId = getBillByBookingId (bookingId).getBillId ();
-        
-        if(totalRemainingAmount.compareTo (amount) != 0) {
-            return false;
-        } else {
-            try(PreparedStatement ps = connection.prepareStatement (
-                    "UPDATE bills set payment_status = 'PAID' where booking_id = ? ")){
-                
-                ps.setInt(1, bookingId);
-                return ps.executeUpdate () > 0;
-                
-            }catch(SQLException e){
-                System.out.println (e.getMessage ());
+            if (bill == null) {
                 return false;
             }
-        }
-    }
-    
-    
-    public boolean deleteDateByBookingId (int bookingId) {
-        try(PreparedStatement ps = connection.prepareStatement ("DELETE FROM bills WHERE " +
-                                                                        "booking_id = ? ")){
-            ps.setInt (1, bookingId);
-            return ps.executeUpdate () > 0;
             
-        }catch(SQLException e){
-            System.out.println (e.getMessage ());
+            // 2. Compare amount with totalAmount
+            if (bill.getTotalAmount().compareTo(amount) == 0) {
+                // 3. Update payment status & date
+                bill.setPaymentStatus("PAID");
+                bill.setPaymentDate (LocalDateTime.now ());
+                
+                session.update(bill);
+                transaction.commit();
+                return true;
+            } else {
+                return false;
+            }
+            
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
             return false;
         }
     }
     
-    
-    
+    @Override
+    public Bill findByBookingId (int bookingId) {
+        try (Session session = sessionFactory.openSession ()) {
+            return session.createQuery("FROM Bill WHERE bookingId = :bookingId", Bill.class)
+                    .setParameter("bookingId", bookingId)
+                    .uniqueResult();
+        }
+    }
     
 }
 

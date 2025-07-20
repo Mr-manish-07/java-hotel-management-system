@@ -1,7 +1,6 @@
 package org.manish07.service.impl;
 
-import org.manish07.dao.impl.CustomerDAOImpl;
-import org.manish07.dao.impl.RoomDAOImpl;
+import org.manish07.dao.RoomDAO;
 import org.manish07.model.Room;
 import org.manish07.service.RoomService;
 
@@ -14,49 +13,45 @@ import java.util.List;
 
 public class RoomServiceImpl implements RoomService {
 
-    CustomerDAOImpl customerDAO = new CustomerDAOImpl();
-    RoomDAOImpl roomDOA = new RoomDAOImpl();
+    private final RoomDAO roomDOA;
+    
+    public RoomServiceImpl(RoomDAO roomDOA) {
+        this.roomDOA = roomDOA;
+    }
     
     @Override
     public boolean addRoom(Room room) {
-        return roomDOA.addRoom(room);
-    }
-    
-    public Room getRoomById(int roomId){
-       return roomDOA.getRoomById(roomId);
+        return roomDOA.save (room);
     }
     
     @Override
-    public List<Room> getAvailableRooms () {
-        return roomDOA.getAvailableRooms (1000);
+    public Room getRoomById(int roomId){
+       return roomDOA.findById (roomId);
+    }
+    
+    @Override
+    public List<Room> getAllRooms () {
+        return roomDOA.findAll ();
     }
     
     @Override
     public List<Room> getACRoom (String ac_type) {
-       return roomDOA.getACRoom ("AC");
+       return roomDOA.findAcRoom (roomDOA.findAll (),ac_type);
     }
     
-    @Override
-    public List<Room> getNonACRoom (String ac_type) {
-        return roomDOA.getNonACRoom ("NON-AC");
-    }
     
     @Override
     public List<Room> getCheaperRoom (BigDecimal amount) {
-        return roomDOA.getCheaperRoom (amount);
+        return roomDOA.findCheaperRoom (roomDOA.findAll (),amount);
     }
     
     @Override
-    public List<Room> getSingleBedRoom (String bed) {
-        return roomDOA.getSingleBedRoom ("SINGLE");
+    public List<Room> getBedRoom (String bed) {
+        return roomDOA.findBedRoom (roomDOA.findAll (),bed);
     }
     
     @Override
-    public List<Room> getDoubleBedRoom (String bed) {
-        return roomDOA.getDoubleBedRoom ("DOUBLE");
-    }
-    
     public Room getRoomByRooNo(int roomNo){
-        return roomDOA.getRoomByRoomNo (roomNo);
+        return roomDOA.findRoomByRooNo (roomNo);
     }
 }

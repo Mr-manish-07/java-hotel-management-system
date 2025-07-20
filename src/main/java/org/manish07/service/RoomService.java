@@ -12,18 +12,16 @@ public interface RoomService {
     
     boolean addRoom (Room room);
     
-    Room getRoomById(int roomId);
+    Room getRoomById (int roomId);
     
-    List<Room> getAvailableRooms ();
+    List<Room> getAllRooms ();
     
-    List <Room>getACRoom (String ac_type);
-    
-    List <Room> getNonACRoom(String ac_type);
+    List<Room> getACRoom (String ac_type);
     
     List<Room> getCheaperRoom (BigDecimal amount);
     
-    List<Room> getSingleBedRoom(String bed);
+    List<Room> getBedRoom (String bed);
     
-    List<Room> getDoubleBedRoom(String bed);
+    Room getRoomByRooNo (int roomNo);
 
 }

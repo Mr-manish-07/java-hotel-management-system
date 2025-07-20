@@ -9,14 +9,13 @@ import java.util.List;
 
 public class GenericsDAOImpl<T> implements GenericsDAO<T> {
     
-    private final SessionFactory sessionFactory;
+    protected final SessionFactory sessionFactory;
     private final Class<T> entityClass;
     
     public GenericsDAOImpl(SessionFactory sessionFactory, Class<T> entityClass) {
         this.sessionFactory = sessionFactory;
         this.entityClass = entityClass;
     }
-    
     
     
     @Override
@@ -42,7 +41,6 @@ public class GenericsDAOImpl<T> implements GenericsDAO<T> {
     }
     
     
-    
     @Override
     public boolean update (T entity) {
         
@@ -64,7 +62,6 @@ public class GenericsDAOImpl<T> implements GenericsDAO<T> {
         }
         return result;
     }
-    
     
     
     @Override
@@ -93,7 +90,6 @@ public class GenericsDAOImpl<T> implements GenericsDAO<T> {
     }
     
     
-    
     @Override
     public T findById (int id) {
         
@@ -101,7 +97,6 @@ public class GenericsDAOImpl<T> implements GenericsDAO<T> {
             return session.find (entityClass,id);
         }
     }
-    
     
     
     @Override

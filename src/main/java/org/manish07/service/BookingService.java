@@ -1,20 +1,20 @@
 package org.manish07.service;
 
+//---------------------------------------------------BUSINESS LOGIC METHODS--------------------------------------------
+
+
+import org.manish07.dao.GenericsDAO;
 import org.manish07.model.Booking;
 
 import java.util.List;
 
-//---------------------------------------------------BUSINESS LOGIC METHODS--------------------------------------------
-
-
-public interface BookingService {
+public interface BookingService extends GenericsDAO<Booking> {
     
     boolean bookRoom (Booking booking);
     
-    Booking getBookingById(int bookingId);
-    
     List<Booking> getListBookingByCustomerId (int customerId);
     
-    List<Booking>  getListBookingByRoomId (int roomId);
-
+    List<Booking> getListBookingByRoomId (int roomId);
+    
+    List<Booking> getBookingByCustomerId(int customerId);
 }

@@ -47,7 +47,7 @@ public class VisitedCustomer {
     @Column(name = "room_number", nullable = false)
     private Integer roomNumber;
     
-    @Column(name = "amount_paid", nullable = false, precision = 10, scale = 2)
+    @Column(name = "amount_paid", nullable = false)
     private BigDecimal amountPaid;
     
     @Column(name = "payment_date")
@@ -136,19 +136,23 @@ public class VisitedCustomer {
     public void setDataUpdatedAt(LocalDateTime dataUpdatedAt) { this.dataUpdatedAt = dataUpdatedAt; }
     
     @Override
-    public String toString() {
-        return "\n-------------------------------------------------" +
-                "\nVisited ID      : " + visitedId +
-                "\nCustomer Name   : " + name +
-                "\nEmail           : " + email +
-                "\nPhone           : " + phone +
-                "\nRoom Number     : " + roomNumber +
-                "\nBooking Time    : " + bookingTime +
-                "\nCheck-In        : " + checkIn +
-                "\nCheck-Out       : " + checkOut +
-                "\nAmount Paid     : " + amountPaid +
-                "\nPayment Date    : " + paymentDate +
-                "\nData Updated At : " + dataUpdatedAt +
-                "\n-------------------------------------------------\n";
+    public String toString () {
+        return "VisitedCustomer [ " +
+                "       visitedId=" + visitedId +
+                "\n      customer=" + customer +
+                "\n      room=" + room +
+                "\n      booking=" + booking +
+                "\n      bill=" + bill +
+                "\n      name='" + name + '\'' +
+                "\n      email='" + email + '\'' +
+                "\n      phone='" + phone + '\'' +
+                "\n      roomNumber=" + roomNumber +
+                "\n      amountPaid=" + amountPaid +
+                "\n      paymentDate=" + paymentDate +
+                "\n      bookingTime=" + bookingTime +
+                "\n      checkIn=" + checkIn +
+                "\n      checkOut=" + checkOut +
+                "\n      dataUpdatedAt=" + dataUpdatedAt +
+                " ] ";
     }
 }

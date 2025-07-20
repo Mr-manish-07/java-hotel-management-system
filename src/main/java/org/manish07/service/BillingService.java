@@ -1,16 +1,17 @@
 package org.manish07.service;
 
+//---------------------------------------------------BUSINESS LOGIC METHODS--------------------------------------------
+
 import org.manish07.model.Bill;
 
 import java.math.BigDecimal;
 
-//---------------------------------------------------BUSINESS LOGIC METHODS--------------------------------------------
-
 public interface BillingService {
     
-    String generateBill(Bill bill) ;
+    String generateBill (Bill bill);
     
-    Bill getBillByBookingId (int bookingId );
+    Bill getBillByBookingId (int bookingId);
     
     boolean makePayment (int bookingId, BigDecimal amount);
+
 }

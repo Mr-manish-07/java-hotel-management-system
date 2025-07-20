@@ -4,18 +4,14 @@ import org.manish07.model.Booking;
 
 import java.util.List;
 
-public interface BookingDAO {
+public interface BookingDAO extends GenericsDAO<Booking> {
 
 
 //--------------------------------------------ABSTRACT METHOD OF BOOKING CLASS-----------------------------------------
 
-    boolean bookRoom(Booking booking);
-
-    Booking getBookingById(int bookingId);
-
-    List<Booking>  getListBookingByCustomerId (int customerId);
+    List<Booking>  findBookingByCustomerId (List <Booking> bookings,int customerId);
     
-    List<Booking>  getListBookingByRoomId (int roomId);
+    List<Booking>  findBookingByRoomId (List<Booking> bookings, int roomId);
     
  
 }

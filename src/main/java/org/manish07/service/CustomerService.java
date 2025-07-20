@@ -11,9 +11,11 @@ public interface CustomerService {
     
     boolean addCustomer (Customer customer);
     
-    Customer getCustomerById(int id) ;
+    List<Customer> getAllCustomers ();
     
-    List<Customer> getAllCustomers () ;
+    Customer getCustomerById (int id);
     
-    int getCustomerIdByPhone(String phone);
+    Customer getCustomerIdByPhone(String phone);
+    
+    Customer getCustomerIdByEmail(String email);
 }

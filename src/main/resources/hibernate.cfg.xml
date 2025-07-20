@@ -23,6 +23,6 @@
         <mapping class="org.manish07.model.Room"/>
         <mapping class="org.manish07.model.Booking"/>
         <mapping class="org.manish07.model.Bill"/>
-        <mapping class="org.manish07.model.Visited_Customers"/>
+        <mapping class="org.manish07.model.VisitedCustomer"/>
     </session-factory>
 </hibernate-configuration>
