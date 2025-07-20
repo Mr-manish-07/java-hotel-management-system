@@ -9,6 +9,7 @@ import org.manish07.util.DateUtil;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 //-----------------------------------------------BUSINESS LOGIC IMPLEMENTATION------------------------------------------
@@ -105,4 +106,28 @@ public class BillingServiceImpl implements BillingService {
         }
     }
     
+    @Override
+    public boolean save (Bill bill) {
+        return billDAO.save (bill);
+    }
+    
+    @Override
+    public boolean update (Bill bill) {
+        return billDAO.update (bill);
+    }
+    
+    @Override
+    public boolean delete (Bill bill) {
+        return billDAO.delete (bill);
+    }
+    
+    @Override
+    public Bill findById (int id) {
+        return billDAO.findById (id);
+    }
+    
+    @Override
+    public List<Bill> findAll () {
+        return billDAO.findAll ();
+    }
 }

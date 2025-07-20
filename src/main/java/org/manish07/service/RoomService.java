@@ -3,12 +3,13 @@ package org.manish07.service;
 //---------------------------------------------------BUSINESS LOGIC METHODS--------------------------------------------
 
 
+import org.manish07.dao.GenericsDAO;
 import org.manish07.model.Room;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-public interface RoomService {
+public interface RoomService extends GenericsDAO<Room> {
     
     boolean addRoom (Room room);
     

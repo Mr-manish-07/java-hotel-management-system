@@ -2,7 +2,6 @@ package org.manish07.model;
 
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.math.BigDecimal;
 
@@ -18,12 +17,8 @@ public class Room {
             allocationSize = 1)
     private int roomId;
     
-    
-    @Id
-    @Column(name = "room_number")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "room_number_gen")
-    @GenericGenerator (name = "room_number_gen", strategy = "org.manish07.generator.RoomNumberGenerator")
-    private int roomNumber ;
+    @Column(name = "room_number", unique = true, nullable = false)
+    private int roomNumber;
     
     @Column(name = "ac_type" , nullable = false)
     private String acType ;
@@ -49,7 +44,11 @@ public class Room {
         this.bed = bed;
         this.balcony = balcony;
     }
-
+    
+    public Room () {
+    
+    }
+    
     //---------------------------------GETTER & SETTER--------------------------
 
 

@@ -78,4 +78,29 @@ public class BookingServiceImpl implements BookingService {
     public List<Booking> getBookingByCustomerId(int customerId){
         return bookingDAO.findBookingByCustomerId (bookingDAO.findAll (),customerId);
     }
+    
+    @Override
+    public boolean save (Booking booking) {
+        return bookingDAO.save (booking);
+    }
+    
+    @Override
+    public boolean update (Booking booking) {
+        return bookingDAO.update(booking);
+    }
+    
+    @Override
+    public boolean delete (Booking booking) {
+        return bookingDAO.delete (booking);
+    }
+    
+    @Override
+    public Booking findById (int id) {
+        return bookingDAO.findById (id);
+    }
+    
+    @Override
+    public List<Booking> findAll () {
+        return bookingDAO.findAll();
+    }
 }

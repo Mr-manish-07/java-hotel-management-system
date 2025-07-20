@@ -8,9 +8,11 @@ import java.time.LocalDateTime;
 @Table(name = "bookings")
 public class Booking {
     
+    
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "booking_seq")
     @SequenceGenerator(name = "booking_seq", sequenceName = "booking_sequence", initialValue = 30000, allocationSize = 1)
+    @Column(name = "booking_id")
     private Integer bookingId;
     
     @ManyToOne(fetch = FetchType.LAZY)

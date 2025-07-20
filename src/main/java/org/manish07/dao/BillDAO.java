@@ -5,9 +5,7 @@ import org.manish07.model.Bill;
 import java.math.BigDecimal;
 
 public interface BillDAO extends GenericsDAO<Bill> {
-
-//---------------------------------------------ABSTRACT METHOD OF BILL CLASS--------------------------------------------
-
+    
     String generateBill(Bill bill) ;
     
     boolean makePayment (int bookingId , BigDecimal amount);

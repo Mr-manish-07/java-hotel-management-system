@@ -54,4 +54,29 @@ public class RoomServiceImpl implements RoomService {
     public Room getRoomByRooNo(int roomNo){
         return roomDOA.findRoomByRooNo (roomNo);
     }
+    
+    @Override
+    public boolean save (Room room) {
+        return roomDOA.save (room);
+    }
+    
+    @Override
+    public boolean update (Room room) {
+        return roomDOA.update(room);
+    }
+    
+    @Override
+    public boolean delete (Room room) {
+        return roomDOA.delete (room);
+    }
+    
+    @Override
+    public Room findById (int id) {
+        return roomDOA.findById (id);
+    }
+    
+    @Override
+    public List<Room> findAll () {
+        return roomDOA.findAll ();
+    }
 }

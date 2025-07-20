@@ -39,6 +39,8 @@ public class Customer {
         this.createdAt = createdAt;
     }
     
+    public Customer(){}
+    
     /* ---------------------------------GETTER & SETTER-------------------------- */
     
     public int getCustomerId () {

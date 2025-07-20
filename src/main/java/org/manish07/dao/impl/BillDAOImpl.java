@@ -9,7 +9,7 @@ import org.manish07.model.Bill;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public class BillDAOImpl extends GenericsDAOImpl<Bill> implements BillDAO {
+public class BillDAOImpl extends GenericsDAOImpl<Bill> implements BillDAO{
     
     public BillDAOImpl (SessionFactory sessionFactory) {
         super (sessionFactory, Bill.class);
@@ -28,7 +28,7 @@ public class BillDAOImpl extends GenericsDAOImpl<Bill> implements BillDAO {
     }
     
     @Override
-    public boolean makePayment(int bookingId, BigDecimal amount) {
+    public boolean makePayment (int bookingId, BigDecimal amount) {
         Transaction transaction = null;
         
         try (Session session = sessionFactory.openSession ()) {
@@ -72,6 +72,4 @@ public class BillDAOImpl extends GenericsDAOImpl<Bill> implements BillDAO {
                     .uniqueResult();
         }
     }
-    
 }
-

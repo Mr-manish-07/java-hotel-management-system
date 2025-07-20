@@ -7,12 +7,12 @@ import java.util.List;
 
 public interface RoomDAO extends GenericsDAO<Room> {
     
-    List <Room>findAcRoom(List<Room> roomList,String acType);
-    
-    List<Room> findCheaperRoom(List<Room> rooms,BigDecimal amount);
+    List<Room> findAcRoom (List<Room> roomList, String acType);
+
+    List<Room> findCheaperRoom (List<Room> rooms, BigDecimal amount);
 
     List<Room> findBedRoom(List<Room> rooms,String bedType);
-    
+
     Room findRoomByRooNo(int roomNo);
     
 }

@@ -7,8 +7,8 @@ import org.manish07.model.VisitedCustomer;
 
 public class VisitedCustomerDAOImpl extends GenericsDAOImpl<VisitedCustomer> implements VisitedCustomerDAO {
     
-    public VisitedCustomerDAOImpl (SessionFactory sessionFactory, Class<VisitedCustomer> entityClass) {
-        super (sessionFactory, entityClass);
+    public VisitedCustomerDAOImpl (SessionFactory sessionFactory) {
+        super (sessionFactory, VisitedCustomer.class);
     }
     
 }
