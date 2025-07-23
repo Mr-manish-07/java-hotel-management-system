@@ -15,11 +15,11 @@ public class Booking {
     @Column(name = "booking_id")
     private Integer bookingId;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "room_id", nullable = false)
     private Room room;
     

@@ -20,7 +20,7 @@ import java.util.Scanner;
 
 public class HotelManagementApp {
     
-    int id = - 1;
+    int id = 5;
     static Scanner scanner = new Scanner (System.in);
     
     SessionFactory sessionFactory = DBUtil.getSessionFactory ();

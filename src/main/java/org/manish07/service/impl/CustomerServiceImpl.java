@@ -38,12 +38,10 @@ public class CustomerServiceImpl implements CustomerService {
             long endNumber = Long.parseLong("9999999999");
 
             long customerPhone = Long.parseLong(customer.getPhone());
-
             if (!(customerPhone >= startNumber && customerPhone <= endNumber)) {
                 System.out.println("Invalid Phone Number ");
                 return false;
             }
-
         } catch (NumberFormatException e) {
             System.out.println(e.getMessage());
         }

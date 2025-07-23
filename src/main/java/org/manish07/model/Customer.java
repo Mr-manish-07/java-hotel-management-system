@@ -12,21 +12,19 @@ public class Customer {
     
     //-------------------------------------------------PLAIN JAVA CLASS(POJO)----------------------------------------------
     @Id
-    @GeneratedValue (strategy = GenerationType.SEQUENCE, generator = "customers_seq")
-    @SequenceGenerator (name = "customers_seq", sequenceName = "customers_sequence",
-            initialValue = 10000, allocationSize = 1)
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private int customerId;
     
-    @Column(name = "name", nullable = false, length = 100)
+    @Column(name = "name")
     private String name;
     
-    @Column(name = "phone", nullable = false, length = 15, unique = true)
+    @Column(name = "phone")
     private String phone;
     
-    @Column(name = "email", nullable = false, length = 100, unique = true)
+    @Column(name = "email")
     private String email;
     
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
     
     /* ---------------------------------CONSTRUCTOR----------------------------- */

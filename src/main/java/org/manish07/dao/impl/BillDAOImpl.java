@@ -16,9 +16,10 @@ public class BillDAOImpl extends GenericsDAOImpl<Bill> implements BillDAO{
     }
     
     public Bill currentBill () {
-        return super.findAll ().stream ().sorted ((a, b) ->
-                                                          Integer.compare (b.getBillId (),a.getBillId ()))
-                .findFirst ()
+        return super.findAll ().stream ().min ((a, b) ->
+                                                       Integer.compare (b.getBillId (),
+                                                                        a.getBillId ()
+                                                                       ))
                 .orElse (null);
     }
     
