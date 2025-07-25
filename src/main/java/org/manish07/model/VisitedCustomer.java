@@ -15,22 +15,22 @@ public class VisitedCustomer {
     private Integer visitedId;
     
     // ✅ Foreign key to Customer
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne()
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
     
     // ✅ Foreign key to Room
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne()
     @JoinColumn(name = "room_id", nullable = false)
     private Room room;
     
     // ✅ Foreign key to Booking
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne()
     @JoinColumn(name = "booking_id", nullable = false)
     private Booking booking;
     
     // ✅ Foreign key to Bill
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne()
     @JoinColumn(name = "bill_id", nullable = false)
     private Bill bill;
     

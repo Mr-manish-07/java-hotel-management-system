@@ -15,11 +15,11 @@ public class Booking {
     @Column(name = "booking_id")
     private Integer bookingId;
     
-    @ManyToOne()
+    @OneToOne()
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
     
-    @ManyToOne()
+    @OneToOne()
     @JoinColumn(name = "room_id", nullable = false)
     private Room room;
     

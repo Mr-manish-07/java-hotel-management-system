@@ -13,7 +13,7 @@ public class Bill {
     @SequenceGenerator(name = "bill_seq", sequenceName = "bill_sequence", initialValue = 40000, allocationSize = 1)
     private Integer billId;
     
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne()
     @JoinColumn(name = "booking_id", nullable = false)
     private Booking booking;
     
